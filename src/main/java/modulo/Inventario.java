@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
  * @author kathe
  */
 public class Inventario {
-    Producto [] producto = new Producto[10];
+    Producto [] producto = new Producto[5];
     
     private int cant = 0;
 
@@ -25,7 +25,7 @@ public class Inventario {
             
             int codigo = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el codigo: "));
             String nombre = JOptionPane.showInputDialog("Ingrese el nombre: ");
-            double precio = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el precio: "));
+            double precio = Double.parseDouble(JOptionPane.showInputDialog("Ingrese el precio: "));
             int cantidadProductos = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad de este producto: "));
             
             producto[i] = new Producto(codigo,nombre,precio,cantidadProductos);
@@ -43,7 +43,10 @@ public class Inventario {
     }//fin del mostrarInfo
     
     public void buscarProducto(){
-        int codigoBuscar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el codigo del producto a buscar: "));
+        int codigoBuscar = Integer.parseInt(JOptionPane.showInputDialog("""
+                                                                        ==== Buscar Productos ===
+                                                                        Ingrese el codigo del producto a buscar: 
+                                                                        """));
         int indice = -1;
         
         for (int i= 0; i < producto.length; i++){
@@ -54,21 +57,25 @@ public class Inventario {
         }//fin del for
         
         JOptionPane.showMessageDialog(null, "Producto buscado: " +producto[indice].getNombre());
-        
     }//fin de buscar Producto
     
     public void venderUnidades(){
-        int codigoBuscar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el codigo del producto: "));
+        int codigoBuscar = Integer.parseInt(JOptionPane.showInputDialog("""
+                                                                        ==== Unidades a Vender ====
+                                                                        Ingrese el codigo del producto: 
+                                                                        """));
         int indice = -1;
         int unidadesVendidas=0;
+        
         for (int i= 0; i < producto.length; i++){
             
             if (producto[i] != null && producto[i].getCodigo()==codigoBuscar){
                 indice = i;
                 break;
             }
-            
-            if(producto[indice]!= null) {
+        }
+        
+        if(indice != -1) {
                 unidadesVendidas = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la cantidad del producto a vender: "));
                 
                 if (unidadesVendidas <= producto[indice].getCantidad()){
@@ -76,69 +83,55 @@ public class Inventario {
                     producto[indice].setCantidad(nuevaCantidad);
                 } else {
                     JOptionPane.showMessageDialog(null, "No hay unidades disponibles del producto.");
-                }//fin de vender unidades
+                }//fin del if
             } else {
                 JOptionPane.showMessageDialog(null, "");
-            }
-        }//fin del for
-        
+            } //fin del if else
+            
     }//fin de vender unidades
     
     public void reabastecerUnidades(){
+        int codigoBuscar = Integer.parseInt(JOptionPane.showInputDialog("""
+                                                                        ==== Reabastecer Unidades ====
+                                                                        Ingrese el codigo del producto: 
+                                                                        """));
+        int indice = -1;
+        int cantidadReabastecer;
+        int nuevaCantidad = 0;
         
+        for (int i= 0; i < producto.length; i++){
+            if (producto[i] != null && producto[i].getCodigo()==codigoBuscar){
+                indice = i;
+                break;
+            }
+        }//fin del for
         
-        
+        if(indice != -1){
+                cantidadReabastecer = Integer.parseInt(JOptionPane.showInputDialog("Ingrese la nueva cantidad del producto: "));
+                
+                
+                if (cantidadReabastecer > 0){
+                    nuevaCantidad = cantidadReabastecer + producto[indice].getCantidad();
+                    producto[indice].setCantidad(nuevaCantidad);
+                } else{
+                        JOptionPane.showMessageDialog(null, "La cantidad debe ser mayor a cero");
+                        }
+            } else {
+                
+                JOptionPane.showMessageDialog(null, "Producto no encontrado");
+            }//fin del if else
     }//fin de vender unidades
     
     public void calcularValor(){
+        double valorTotal = 0;
         
-        double suma = 0.0;
-        double promedio = 0.0;
+        for (int i= 0; i < producto.length; i++){
+            
+            if (producto[i] != null){
+                valorTotal = valorTotal + (producto[i].getPrecio()*producto[i].getCantidad());
+            }
+        }//fin del for
         
-        
-        
+        JOptionPane.showMessageDialog(null, "El valor total del Inventario: " + valorTotal);
     }//fin de calcular valor
-    
-//    public void actualizarExistencias(){
-//        int codigoBuscar = Integer.parseInt(JOptionPane.showInputDialog("Ingrese el codigo del producto a buscar: "));
-//        int indice = -1;
-//        
-//        for (int i= 0; i < producto.length; i++){
-//            if (producto[i] != null && producto[i].getCodigo()==codigoBuscar){
-//                indice = 1;
-//                break;
-//            }
-//        }//fin del for
-//        
-//        int opcion = Integer.parseInt(JOptionPane.showInputDialog("""
-//                                                                  ¿Qué dato deasea modificar?
-//                                                                  1. Nombre:
-//                                                                  2. Precio:
-//                                                                  3. cantidad:
-//                                                                  """));
-//        switch(opcion) {
-//            
-//            case 1:
-//                String nuevoNombre = JOptionPane.showInputDialog("Nuevo nombre: ", producto[indice].getNombre());
-//                producto[indice].setNombre(nuevoNombre);
-//                JOptionPane.showMessageDialog(null, "Nombre actualizado: "+ nuevoNombre);
-//                break;
-//            
-//            case 2:
-//                int nuevoPrecio = Integer.parseInt(JOptionPane.showInputDialog("Nuevo nombre para: ",producto[indice].getPrecio()));
-//                producto[indice].setPrecio(nuevoPrecio);
-//                JOptionPane.showMessageDialog(null, "Nombre actualizado: "+ nuevoPrecio);
-//                break;
-//            case 3:
-//                int nuevaCantidad = Integer.parseInt(JOptionPane.showInputDialog("Nuevo nombre para:",producto[indice].getCantidad()));
-//                producto[indice].setCantidad(nuevaCantidad);
-//                JOptionPane.showMessageDialog(null, "Nombre actualizado: "+ nuevaCantidad);
-//                break;
-//            default:
-//                JOptionPane.showMessageDialog(null, "Ingrese una opcion valida.");
-//                break;
-//        }
-//        
-//    }//fin del actualizarExistencias
-    
 }//fin de la clase Inventario

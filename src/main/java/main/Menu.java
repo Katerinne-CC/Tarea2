@@ -21,11 +21,19 @@ public class Menu {
             opcion = Integer.parseInt(JOptionPane.showInputDialog("""
                                                               ==== Tiendita La Margarita ====
                                                               1. Registrar productos.
-                                                              2. Consultar informacion.
-                                                              3. Actualizar existencias.
-                                                              4. salir
+                                                              2. Mostrar informacion.
+                                                              3. Buscar producto.
+                                                              4. Vender Unidades.
+                                                              5. Reabastecer producto.
+                                                              6. Calcular valor total del inventario.
+                                                              7. salir
                                                               ===============================
                                                               """));
+            
+            if(opcion >= 2 && opcion < 8 && inventario.getCantidad() == 0){
+                JOptionPane.showMessageDialog(null, "Debe registrar primero los productos. . .");
+                continue;
+            }
             
             switch (opcion){
                 
