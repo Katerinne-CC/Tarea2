@@ -9,5 +9,6 @@ package modulo;
  * @author kathe
  */
 public class Inventario {
+    Producto [] producto = new Producto[10];
     
 }
